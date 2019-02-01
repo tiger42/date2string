@@ -1,0 +1,23 @@
+{
+  "name": "date2string",
+  "version": "1.0.0",
+  "description": "A JavaScript implementation of the PHP date_format function",
+  "author": "Marc-Oliver Stühmer <stuehmer@codefoo.org>",
+  "license": "MIT",
+  "homepage": "https://github.com/tiger42/date2string#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiger42/date2string.git"
+  },
+  "main": "date2string.js",
+  "keywords": [
+    "date",
+    "time",
+    "format",
+    "string",
+    "php"
+  ],
+  "bugs": {
+    "url": "https://github.com/tiger42/date2string/issues"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "date2string",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A JavaScript implementation of the PHP date_format function",
   "author": "Marc-Oliver Stühmer <stuehmer@codefoo.org>",
   "license": "MIT",

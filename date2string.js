@@ -44,6 +44,8 @@
     /**
      * Format a date according to the given format string.<br />
      * The accepted format characters are the same as for the "date" function in PHP.<br />
+     * The weekday and month names can be translated by setting the array properties "wdays" and "months" of date2string.
+     * Note that the weekdays array must begin with Sunday.<br />
      * Use <b>\\</b> to escape letters from being interpreted (see example).<br />
      * <br /><br />
      * <table style="border: 1px solid #AAAAAA;">
@@ -291,10 +293,15 @@
      *
      * @example
      * console.log(date2string(new Date(), 'Y-m-d H:i:s'));
-     * // Example output: 2018-07-09 15:33:24
+     * // 2018-07-09 15:33:24
      *
      * console.log(date2string(new Date(), '\\T\\o\\d\\a\\y \\i\\s l, \\t\\h\\e jS \\o\\f F Y. \\T\\h\\e \\c\\u\\r\\r\\e\\n\\t \\t\\i\\m\\e \\i\\s h:i:s A.'));
-     * // Example output: Today is Friday, the 31st of August 2018. The current time is 09:46:02 PM.
+     * // Today is Friday, the 31st of August 2018. The current time is 09:46:02 PM.
+     *
+     * date2string.wdays = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
+     * date2string.months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+     * console.log(date2string(new Date(), 'l, j. M \'y'));
+     * // Montag, 4. Okt '19
      *
      * @param {Date}   date    The Date object to get the date/time from
      * @param {string} format  The format string
@@ -302,17 +309,14 @@
      * @return {string}  The formatted date/time
      */
     const date2string = (() => {
-        const wdays  = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
         let ms, sec, min, hour, wday, day, mon;
 
         const code = {
             // Day
             d : (d) => (day = d.getDate()) < 10 ? '0' + day : day,
-            D : (d) => wdays[d.getDay()].substr(0, 3),
+            D : (d) => date2string.wdays[d.getDay()].substr(0, 3),
             j : (d) => d.getDate(),
-            l : (d) => wdays[d.getDay()],
+            l : (d) => date2string.wdays[d.getDay()],
             N : (d) => (wday = d.getDay()) === 0 ? 7 : wday,
             S : (d) => (day = d.getDate()) == 1 || day == 21 || day == 31 ? 'st'
                     : (day == 2 || day == 22 ? 'nd'
@@ -348,9 +352,9 @@
             },
 
             // Month
-            F : (d) => months[d.getMonth()],
+            F : (d) => date2string.months[d.getMonth()],
             m : (d) => (mon = d.getMonth() + 1) < 10 ? '0' + mon : mon,
-            M : (d) => months[d.getMonth()].substr(0, 3),
+            M : (d) => date2string.months[d.getMonth()].substr(0, 3),
             n : (d) => d.getMonth() + 1,
             t : (d) => getDaysOfMonth(d.getMonth(), d.getFullYear()),
 
@@ -427,8 +431,15 @@
             U : (d) => Math.floor(d.getTime() / 1000)
         };
 
-        return (date, format) => format.replace(/(\\?)(.)/g, (match, p1, p2) => code.hasOwnProperty(match) ? code[match](date) : p2);
+        return (date, format) => format.replace(/\\?(.)/g, (match, c) => code.hasOwnProperty(match) ? code[match](date) : c);
     })();
+
+    if (!date2string.wdays) {
+        date2string.wdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    }
+    if (!date2string.months) {
+        date2string.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    }
 
     if (typeof define == 'function' && define.amd) {
         define(() => date2string);

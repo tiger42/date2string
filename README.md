@@ -20,13 +20,13 @@ In Node.js:
 const date2string = require('date2string');
 
 console.log(date2string(new Date(), 'Y-m-d H:i:s'));
-// Example output: 2018-07-09 15:33:24
+// 2018-07-09 15:33:24
 
 console.log(date2string(new Date(), '\\T\\o\\d\\a\\y \\i\\s l, \\t\\h\\e jS \\o\\f F Y. \\T\\h\\e \\c\\u\\r\\r\\e\\n\\t \\t\\i\\m\\e \\i\\s h:i:s A.'));
-// Example output: Today is Friday, the 31st of August 2018. The current time is 09:46:02 PM.
+// Today is Friday, the 31st of August 2018. The current time is 09:46:02 PM.
 ```
 
-### Available format characters:
+### Available format characters
 
 <table style="border: 1px solid #AAAAAA;">
 <tr valign="middle" style="color: #FFFFFF; background-color: #AAAAAA;">
@@ -269,3 +269,13 @@ console.log(date2string(new Date(), '\\T\\o\\d\\a\\y \\i\\s l, \\t\\h\\e jS \\o\
 </tr>
 </table>
 </div>
+
+### Localization
+The weekday and month names can be translated by setting the array properties "wdays" and "months" of date2string. Note that the weekdays array must begin with Sunday.
+```js
+date2string.wdays = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
+date2string.months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+
+console.log(date2string(new Date(), 'l, j. M \'y'));
+// Montag, 4. Okt '19
+```

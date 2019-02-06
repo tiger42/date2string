@@ -237,7 +237,7 @@ console.log(date2string(new Date(), '\\T\\o\\d\\a\\y \\i\\s l, \\t\\h\\e jS \\o\
 <tr valign="top">
     <td><i>T</i></td>
     <td>Timezone abbreviation</td>
-    <td>Examples: <i>EST, MDT</i></td>
+    <td>Example: <i>GMT+2</i></td>
 </tr>
 <tr valign="top">
     <td><i>Z</i></td>

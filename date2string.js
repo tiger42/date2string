@@ -257,7 +257,7 @@
      * <tr valign="top">
      *     <td><i>T</i></td>
      *     <td>Timezone abbreviation</td>
-     *     <td>Examples: <i>EST, MDT</i></td>
+     *     <td>Example: <i>GMT+2</i></td>
      * </tr>
      * <tr valign="top">
      *     <td><i>Z</i></td>
@@ -420,7 +420,7 @@
             },
 
             T : (d) => {
-                const tz = d.toLocaleTimeString(navigator.language, { timeZoneName : 'short' }).split(' ');
+                const tz = d.toLocaleTimeString('en-US', { timeZoneName : 'short' }).split(' ');
                 return tz[tz.length - 1];
             },
             Z : (d) => -d.getTimezoneOffset() * 60,
@@ -443,7 +443,7 @@
 
     if (typeof define == 'function' && define.amd) {
         define(() => date2string);
-    } else if (typeof exports == 'object') {
+    } else if (typeof module == 'object' && module.exports) {
         module.exports = date2string;
     } else {
         global.date2string = date2string;

@@ -25,6 +25,17 @@ console.log(date2string(new Date(), 'Y-m-d H:i:s'));
 console.log(date2string(new Date(), '\\T\\o\\d\\a\\y \\i\\s l, \\t\\h\\e jS \\o\\f F Y. \\T\\h\\e \\c\\u\\r\\r\\e\\n\\t \\t\\i\\m\\e \\i\\s h:i:s A.'));
 // Today is Friday, the 31st of August 2018. The current time is 09:46:02 PM.
 ```
+In a web browser:
+
+```html
+<script src="node_modules/date2string/date2string.min.js"></script>
+
+<script>
+    console.log('Has 2016 been a leap year? ' + (date2string(new Date('2016'), 'L') === '1' ? 'YES' : 'NO'));
+    // Has 2016 been a leap year? YES
+</script>
+```
+The *date2string.min.js* file is a minified and ES3 compatible version of date2string that is working in most browsers including Internet Explorer 9+.
 
 ### Available format characters
 
@@ -237,7 +248,7 @@ console.log(date2string(new Date(), '\\T\\o\\d\\a\\y \\i\\s l, \\t\\h\\e jS \\o\
 <tr valign="top">
     <td><i>T</i></td>
     <td>Timezone abbreviation</td>
-    <td>Example: <i>GMT+2</i></td>
+    <td>Examples: <i>AST, GMT+2</i></td>
 </tr>
 <tr valign="top">
     <td><i>Z</i></td>
@@ -279,3 +290,6 @@ date2string.months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Jul
 console.log(date2string(new Date(), 'l, j. M \'y'));
 // Montag, 4. Okt '19
 ```
+
+## Known bugs and limitations
+- The format character "e" (timezone identifier) is giving invalid results in Internet Explorer and Firefox for Android (and maybe other browsers).

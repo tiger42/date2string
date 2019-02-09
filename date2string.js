@@ -257,7 +257,7 @@
      * <tr valign="top">
      *     <td><i>T</i></td>
      *     <td>Timezone abbreviation</td>
-     *     <td>Example: <i>GMT+2</i></td>
+     *     <td>Examples: <i>AST, GMT+2</i></td>
      * </tr>
      * <tr valign="top">
      *     <td><i>Z</i></td>
@@ -391,7 +391,8 @@
                     : (ms < 100 ? '0' + ms : ms)),
 
             // Timezone
-            e : (d) => Intl.DateTimeFormat().resolvedOptions().timeZone,
+            e : (d) => (typeof Intl != 'undefined' && Intl.DateTimeFormat().resolvedOptions().timeZone)
+                    ? Intl.DateTimeFormat().resolvedOptions().timeZone : code.T(d),
             I : (d) => {
                 const off6 = -new Date(d.getFullYear(), 6, 1).getTimezoneOffset();
                 const off0 = -new Date(d.getFullYear(), 0, 1).getTimezoneOffset();
@@ -420,8 +421,28 @@
             },
 
             T : (d) => {
-                const tz = d.toLocaleTimeString('en-US', { timeZoneName : 'short' }).split(' ');
-                return tz[tz.length - 1];
+                try {
+                    // Environments supporting "timeZoneName" will throw a RangeError here
+                    d.toLocaleTimeString('en-US', { timeZoneName : 'test' });
+                } catch (e) {
+                    if (e.name == 'RangeError'
+                        // Check for buggy IE11
+                        && d.toLocaleTimeString('en-US', { timeZoneName : 'short' })
+                            != d.toLocaleTimeString('en-US', { timeZoneName : 'long' })
+                    ) {
+                        return d.toLocaleTimeString('en-US', { timeZoneName : 'short' }).split(' ').pop();
+                    }
+                }
+                // Fallback for IE
+                let offset = d.getTimezoneOffset() / 60;
+                const pos = offset <= 0;
+                offset = Math.abs(offset);
+                const hour = Math.floor(offset);
+                let min = (offset - hour) * 60;
+                if (min < 10) {
+                    min = '0' + min;
+                }
+                return offset == 0 ? 'UTC' : 'GMT' + (pos ? '+' : '-') + hour + (min != '00' ? ':' + min : '');
             },
             Z : (d) => -d.getTimezoneOffset() * 60,
 

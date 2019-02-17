@@ -361,7 +361,7 @@
             // Year
             L : (d) => isLeapYear(d.getFullYear()) ? 1 : 0,
             o : (d) => {
-                const year = d.getFullYear();
+                let year = d.getFullYear();
                 const week = +code.W(d);
                 return (week == 1 && d.getMonth() == 11) ? ++year :
                     (week >= 52 && d.getMonth() === 0) ? --year : year;

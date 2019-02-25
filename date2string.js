@@ -14,11 +14,8 @@
      *
      * @return {boolean}  Is the year a leap year?
      */
-    const isLeapYear = (year) => {
-        year = year == null ? new Date().getFullYear() : year;
-
-        return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
-    };
+    const isLeapYear = (year = new Date().getFullYear()) =>
+        year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
 
     /**
      * Determine the number of days of the given month in the given year.<br />
@@ -30,16 +27,11 @@
      *
      * @return {number}  The calculated number of days
      */
-    const getDaysOfMonth = (month, year) => {
-        month = month == null ? new Date().getMonth() : month;
-        year  = year == null ? new Date().getFullYear() : year;
-
-        if (month == 1) {
-            return isLeapYear(year) ? 29 : 28;
-        }
-
-        return month == 3 || month == 5 || month == 8 || month == 10 ? 30 : 31;
-    };
+    const getDaysOfMonth = (month = new Date().getMonth(), year = new Date().getFullYear()) =>
+        month == 1
+            ? isLeapYear(year) ? 29 : 28
+            : month == 3 || month == 5 || month == 8 || month == 10
+                ? 30 : 31;
 
     /**
      * Format a date according to the given format string.<br />

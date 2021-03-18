@@ -2,7 +2,7 @@
  * @file date2string - A JavaScript implementation of the PHP date_format function.
  * @author Marc-Oliver Stühmer <stuehmer@codefoo.org>
  * @license MIT
- * @copyright 2019 Marc-Oliver Stühmer
+ * @copyright 2021 Marc-Oliver Stühmer
  */
 
 ((global) => {
@@ -29,7 +29,8 @@
      */
     const getDaysOfMonth = (month = new Date().getMonth(), year = new Date().getFullYear()) =>
         month == 1
-            ? isLeapYear(year) ? 29 : 28
+            ? isLeapYear(year)
+                ? 29 : 28
             : month == 3 || month == 5 || month == 8 || month == 10
                 ? 30 : 31;
 
@@ -247,6 +248,11 @@
      *     <td>Example: <i>+02:00</i></td>
      * </tr>
      * <tr valign="top">
+     *     <td><i>p</i></td>
+     *     <td>The same as <i>P</i>, but returns Z instead of +00:00</td>
+     *     <td>Example: <i>+02:00</i></td>
+     * </tr>
+     * <tr valign="top">
      *     <td><i>T</i></td>
      *     <td>Timezone abbreviation</td>
      *     <td>Examples: <i>AST, GMT+2</i></td>
@@ -307,16 +313,16 @@
 
         const code = {
             // Day
-            d : (d) => zeropad(d.getDate()),
-            D : (d) => date2string.wdays[d.getDay()].substr(0, 3),
-            j : (d) => d.getDate(),
-            l : (d) => date2string.wdays[d.getDay()],
-            N : (d) => (wday = d.getDay()) === 0 ? 7 : wday,
-            S : (d) => (day = d.getDate()) == 1 || day == 21 || day == 31 ? 'st'
+            d: (d) => zeropad(d.getDate()),
+            D: (d) => date2string.wdays[d.getDay()].substr(0, 3),
+            j: (d) => d.getDate(),
+            l: (d) => date2string.wdays[d.getDay()],
+            N: (d) => (wday = d.getDay()) === 0 ? 7 : wday,
+            S: (d) => (day = d.getDate()) == 1 || day == 21 || day == 31 ? 'st'
                     : (day == 2 || day == 22 ? 'nd'
                         : (day == 3 || day == 23 ? 'rd' : 'th')),
-            w : (d) => d.getDay(),
-            z : (d) => {
+            w: (d) => d.getDay(),
+            z: (d) => {
                 const year = d.getYear();
                 let days = 0;
                 for (let m = 0, mon = d.getMonth(); m < mon; m++) {
@@ -326,7 +332,7 @@
             },
 
             // Week
-            W : (d) => {
+            W: (d) => {
                 const getDay1 = (year) => code.N(new Date(year, 0, 1)) - 1;
                 const year = d.getFullYear();
                 const day1 = getDay1(year);
@@ -344,27 +350,27 @@
             },
 
             // Month
-            F : (d) => date2string.months[d.getMonth()],
-            m : (d) => zeropad(d.getMonth() + 1),
-            M : (d) => date2string.months[d.getMonth()].substr(0, 3),
-            n : (d) => d.getMonth() + 1,
-            t : (d) => getDaysOfMonth(d.getMonth(), d.getFullYear()),
+            F: (d) => date2string.months[d.getMonth()],
+            m: (d) => zeropad(d.getMonth() + 1),
+            M: (d) => date2string.months[d.getMonth()].substr(0, 3),
+            n: (d) => d.getMonth() + 1,
+            t: (d) => getDaysOfMonth(d.getMonth(), d.getFullYear()),
 
             // Year
-            L : (d) => isLeapYear(d.getFullYear()) ? 1 : 0,
-            o : (d) => {
+            L: (d) => isLeapYear(d.getFullYear()) ? 1 : 0,
+            o: (d) => {
                 let year = d.getFullYear();
                 const week = +code.W(d);
                 return (week == 1 && d.getMonth() == 11) ? ++year :
                     (week >= 52 && d.getMonth() === 0) ? --year : year;
             },
-            Y : (d) => d.getFullYear(),
-            y : (d) => (d.getFullYear() + '').substr(2, 2),
+            Y: (d) => d.getFullYear(),
+            y: (d) => (d.getFullYear() + '').substr(2, 2),
 
             // Time
-            a : (d) => d.getHours() < 12 ? 'am' : 'pm',
-            A : (d) => d.getHours() < 12 ? 'AM' : 'PM',
-            B : (d) => {
+            a: (d) => d.getHours() < 12 ? 'am' : 'pm',
+            A: (d) => d.getHours() < 12 ? 'AM' : 'PM',
+            B: (d) => {
                 let b = Math.floor((d.getUTCHours() * 60 * 60 + d.getUTCMinutes() * 60
                         + d.getUTCSeconds() + 3600) / 86.4);
                 if (b > 999) {
@@ -372,19 +378,19 @@
                 }
                 return zeropad(b, 3);
             },
-            g : (d) => d.getHours() % 12 || 12,
-            G : (d) => d.getHours(),
-            h : (d) => zeropad(d.getHours() % 12 || 12),
-            H : (d) => zeropad(d.getHours()),
-            i : (d) => zeropad(d.getMinutes()),
-            s : (d) => zeropad(d.getSeconds()),
-            u : (d) => code.v(d) + '000',
-            v : (d) => zeropad(d.getMilliseconds(), 3),
+            g: (d) => d.getHours() % 12 || 12,
+            G: (d) => d.getHours(),
+            h: (d) => zeropad(d.getHours() % 12 || 12),
+            H: (d) => zeropad(d.getHours()),
+            i: (d) => zeropad(d.getMinutes()),
+            s: (d) => zeropad(d.getSeconds()),
+            u: (d) => code.v(d) + '000',
+            v: (d) => zeropad(d.getMilliseconds(), 3),
 
             // Timezone
-            e : (d) => (typeof Intl != 'undefined' && Intl.DateTimeFormat().resolvedOptions().timeZone)
+            e: (d) => (typeof Intl != 'undefined' && Intl.DateTimeFormat().resolvedOptions().timeZone)
                     ? Intl.DateTimeFormat().resolvedOptions().timeZone : code.T(d),
-            I : (d) => {
+            I: (d) => {
                 const off6 = -new Date(d.getFullYear(), 6, 1).getTimezoneOffset();
                 const off0 = -new Date(d.getFullYear(), 0, 1).getTimezoneOffset();
                 if (off6 == off0) {
@@ -395,8 +401,8 @@
                 }
                 return -d.getTimezoneOffset() == off0 ? 1 : 0;
             },
-            O : (d) => code.P(d).replace(/\:/, ''),
-            P : (d) => {
+            O: (d) => code.P(d).replace(':', ''),
+            P: (d) => {
                 let offset = d.getTimezoneOffset() / 60;
                 const pos = offset <= 0;
                 offset = Math.abs(offset);
@@ -404,7 +410,8 @@
                 const min = (offset - hour) * 60;
                 return (pos ? '+' : '-') + zeropad(hour) + ':' + zeropad(min);
             },
-            T : (d) => {
+            p: (d) => code.P(d).replace('+00:00', 'Z'),
+            T: (d) => {
                 try {
                     // Environments supporting "timeZoneName" will throw a RangeError here
                     d.toLocaleTimeString('en-US', { timeZoneName : 'test' });
@@ -425,12 +432,12 @@
                 const min = zeropad((offset - hour) * 60);
                 return offset == 0 ? 'UTC' : 'GMT' + (pos ? '+' : '-') + hour + (min != '00' ? ':' + min : '');
             },
-            Z : (d) => -d.getTimezoneOffset() * 60,
+            Z: (d) => -d.getTimezoneOffset() * 60,
 
             // Full Date/Time
-            c : (d) => date2string(d, 'Y-m-d\\TH:i:sP'),
-            r : (d) => date2string(d, 'D, d M Y H:i:s O'),
-            U : (d) => Math.floor(d.getTime() / 1000)
+            c: (d) => date2string(d, 'Y-m-d\\TH:i:sP'),
+            r: (d) => date2string(d, 'D, d M Y H:i:s O'),
+            U: (d) => Math.floor(d.getTime() / 1000)
         };
 
         return (date, format) => format.replace(/\\?(.)/g, (match, c) => code.hasOwnProperty(match) ? code[match](date) : c);

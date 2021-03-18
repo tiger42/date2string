@@ -35,7 +35,7 @@ In a web browser:
     // Has 2016 been a leap year? YES
 </script>
 ```
-The *date2string.min.js* file is a minified and ES3 compatible version of date2string that is working in most browsers including Internet Explorer 9+.
+The *date2string.min.js* file is a minified and ES5 compatible version of date2string that is working in most browsers including Internet Explorer 9+.
 
 ### Available format characters
 
@@ -246,6 +246,11 @@ The *date2string.min.js* file is a minified and ES3 compatible version of date2s
     <td>Example: <i>+02:00</i></td>
 </tr>
 <tr valign="top">
+    <td><i>p</i></td>
+    <td>The same as <i>P</i>, but returns Z instead of +00:00</td>
+    <td>Example: <i>+02:00</i></td>
+</tr>
+<tr valign="top">
     <td><i>T</i></td>
     <td>Timezone abbreviation</td>
     <td>Examples: <i>AST, GMT+2</i></td>
@@ -292,4 +297,4 @@ console.log(date2string(new Date(), 'l, j. M \'y'));
 ```
 
 ## Known bugs and limitations
-- The format character "e" (timezone identifier) is giving invalid results in Internet Explorer and Firefox for Android (and maybe other browsers).
+- The format character "e" (timezone identifier) is giving invalid results in Internet Explorer (and maybe other browsers).
